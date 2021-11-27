@@ -6,24 +6,26 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-  input := `=+-*/(){},;.`
+  input := `= + - * / ( ) { } , ; . let func`
 
   test := []struct {
     expectedToken token.TokenType
     expectedLiteral string
   }{
-    {token.ASSIGN, "="},
-    {token.PLUS, "+"},
-    {token.MINUS, "-"},
-    {token.MULTIPLY, "*"},
-    {token.DIVISION, "/"},
-    {token.LPAREN, "("},
-    {token.RPAREN, ")"},
-    {token.LBRACE, "{"},
-    {token.RBRACE, "}"},
-    {token.COMMA, ","},
-    {token.SEMICOLON, ";"},
-    {token.PERIOD, "."},
+    {token.Assign, "="},
+    {token.Plus, "+"},
+    {token.Minus, "-"},
+    {token.Multiply, "*"},
+    {token.Division, "/"},
+    {token.Lparen, "("},
+    {token.Rparen, ")"},
+    {token.Lbrace, "{"},
+    {token.Rbrace, "}"},
+    {token.Comma, ","},
+    {token.Semicolon, ";"},
+    {token.Period, "."},
+    {token.Let, "let"},
+    {token.Function, "func"},
   }
 
   lex := New(input)
@@ -32,7 +34,7 @@ func TestNextToken(t *testing.T) {
     tok := lex.nextToken()
 
     if tok.Type != tt.expectedToken {
-      t.Errorf("test failed. expected %s, actual: %s\n", tt.expectedToken, tok.Type)
+      t.Errorf("test failed. expected %s, actual: %s\n", tt.expectedToken.String(), tok.Type)
     }
 
     if tok.Literal != tt.expectedLiteral {
